@@ -1,0 +1,8 @@
+import { useState } from "react";
+import CartItem from "../components/cart/CartItem";
+import OrderSummary from "../components/cart/OrderSummary";
+import { products } from "../data/products";
+import Modal from "../components/ui/Modal";
+import Button from "../components/ui/Button";
+
+export default function CartPage(){const[remove,setRemove]=useState(false);return <><div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8"><div className="flex items-end justify-between"><div><div className="text-sm font-bold text-primary-500">Your cart</div><h1 className="mt-1 text-3xl font-black">Shopping cart</h1></div><button className="text-sm font-bold text-red-500">Clear cart</button></div><div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]"><div className="rounded-2xl border border-gray-100 bg-white px-5 sm:px-6"><CartItem product={products[0]} onRemove={()=>setRemove(true)}/><CartItem product={products[2]} onRemove={()=>setRemove(true)}/><CartItem product={products[1]} onRemove={()=>setRemove(true)}/></div><div><div className="mb-4"><label className="text-sm font-bold">Coupon code</label><div className="mt-2 flex gap-2"><input className="h-11 min-w-0 flex-1 rounded-xl border border-gray-200 px-3 text-sm outline-none focus:border-primary-400" placeholder="SAVE10"/><Button variant="outline">Apply</Button></div></div><OrderSummary/></div></div></div><Modal open={remove} onOpenChange={setRemove} title="Remove item?"><p className="text-sm leading-6 text-gray-500">Are you sure you want to remove this item from your cart?</p><div className="mt-5 grid grid-cols-2 gap-3"><Button variant="outline" onClick={()=>setRemove(false)}>Cancel</Button><Button variant="danger" onClick={()=>setRemove(false)}>Remove</Button></div></Modal></>}

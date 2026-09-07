@@ -1,0 +1,8 @@
+import { MapPin, Plus } from "lucide-react";
+import { useState } from "react";
+import PageHero from "../components/common/PageHero";
+import Button from "../components/ui/Button";
+import Modal from "../components/ui/Modal";
+import Input from "../components/ui/Input";
+
+export default function AddressesPage(){const[open,setOpen]=useState(false);return <><PageHero title="Saved addresses" subtitle="Manage delivery destinations for faster checkout."/><div className="mx-auto max-w-5xl px-4 py-10 sm:px-6 lg:px-8"><div className="flex justify-end"><Button onClick={()=>setOpen(true)}><Plus size={17}/>Add address</Button></div><div className="mt-5 grid gap-5 md:grid-cols-2"><div className="rounded-2xl border-2 border-primary-200 bg-primary-50/40 p-5"><div className="flex items-center gap-2 font-black"><MapPin size={18} className="text-primary-500"/>Home</div><p className="mt-3 text-sm leading-6 text-gray-500">John Doe<br/>123 Main St<br/>New York, NY 10001</p><div className="mt-4 text-xs font-bold text-primary-500">Default address</div></div><div className="rounded-2xl border border-gray-100 p-5"><div className="flex items-center gap-2 font-black"><MapPin size={18}/>Office</div><p className="mt-3 text-sm leading-6 text-gray-500">John Doe<br/>145 Market Avenue<br/>New York, NY 10012</p></div></div></div><Modal open={open} onOpenChange={setOpen} title="Add a new address"><div className="grid gap-3"><Input placeholder="Address label"/><Input placeholder="Street address"/><div className="grid grid-cols-2 gap-3"><Input placeholder="City"/><Input placeholder="ZIP code"/></div><Button onClick={()=>setOpen(false)}>Save address</Button></div></Modal></>}
