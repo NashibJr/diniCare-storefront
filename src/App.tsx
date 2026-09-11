@@ -25,4 +25,37 @@ import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
-export default function App(){return <BrowserRouter><Routes><Route element={<AppShell/>}><Route path="/" element={<HomePage/>}/><Route path="/shop" element={<ShopPage/>}/><Route path="/product/:id" element={<ProductDetailsPage/>}/><Route path="/cart" element={<CartPage/>}/><Route path="/checkout" element={<CheckoutPage/>}/><Route path="/payment" element={<PaymentPage/>}/><Route path="/review" element={<ReviewPage/>}/><Route path="/confirmation" element={<ConfirmationPage/>}/><Route path="/orders" element={<OrdersPage/>}/><Route path="/orders/:id" element={<OrderDetailsPage/>}/><Route path="/wishlist" element={<WishlistPage/>}/><Route path="/account" element={<AccountPage/>}/><Route path="/addresses" element={<AddressesPage/>}/><Route path="/payment-methods" element={<PaymentMethodsPage/>}/><Route path="/about" element={<AboutPage/>}/><Route path="/contact" element={<ContactPage/>}/><Route path="/faq" element={<FaqPage/>}/><Route path="/shipping" element={<ShippingPage/>}/><Route path="/returns" element={<ReturnsPage/>}/><Route path="/terms" element={<TermsPage/>}/><Route path="/privacy" element={<PrivacyPage/>}/><Route path="*" element={<NotFoundPage/>}/></Route><Route path="/login" element={<LoginPage/>}/><Route path="/register" element={<RegisterPage/>}/></Routes></BrowserRouter>}
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppShell />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/shop" element={<ShopPage />} />
+          <Route path="/product/:id" element={<ProductDetailsPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/review" element={<ReviewPage />} />
+          <Route path="/confirmation" element={<ConfirmationPage />} />
+          <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/orders/:id" element={<OrderDetailsPage />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/account" element={<AccountPage />} />
+          <Route path="/addresses" element={<AddressesPage />} />
+          <Route path="/payment-methods" element={<PaymentMethodsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/shipping" element={<ShippingPage />} />
+          <Route path="/returns" element={<ReturnsPage />} />
+          <Route path="/terms" element={<TermsPage />} />
+          <Route path="/privacy" element={<PrivacyPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}

@@ -10,3 +10,14 @@ export type Product = {
   badge?: string;
   description: string;
 };
+
+export interface Category {
+  _id: string;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  slung: string;
+  totalProducts: number;
+}

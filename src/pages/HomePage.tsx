@@ -1,14 +1,181 @@
-import { ArrowRight, Headphones, RotateCcw, ShieldCheck, Truck } from "lucide-react";
+import {
+  ArrowRight,
+  Headphones,
+  RotateCcw,
+  ShieldCheck,
+  Truck,
+} from "lucide-react";
 import { Link } from "react-router-dom";
-import { products, categories } from "../data/products";
+import { products } from "../data/products";
 import ProductGrid from "../components/product/ProductGrid";
 import SectionTitle from "../components/ui/SectionTitle";
 import Button from "../components/ui/Button";
 import Modal from "../components/ui/Modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import actions from "../api/actions/actions";
+import Suspense from "../components/common/Suspense";
 
-export default function HomePage(){
-  const [newsletter,setNewsletter]=useState(false);const [added,setAdded]=useState(false);
-  useEffect(()=>{const timer=setTimeout(()=>setNewsletter(true),1200);return()=>clearTimeout(timer)},[]);
-  return <><section className="overflow-hidden bg-gradient-to-br from-primary-50 via-white to-yellow-50"><div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 md:min-h-[560px] lg:grid-cols-2 lg:px-8"><div><span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-bold text-primary-600 shadow-sm">New season · Better choices</span><h1 className="mt-5 max-w-xl text-4xl font-black tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl">Amazing products.<br/><span className="text-primary-500">Better living.</span></h1><p className="mt-5 max-w-lg text-base leading-7 text-gray-600 sm:text-lg">Shop the latest trends at prices you will love, with secure checkout and fast delivery.</p><div className="mt-7 flex flex-wrap gap-3"><Link to="/shop"><Button variant="secondary" size="lg">Shop now <ArrowRight size={18}/></Button></Link><Link to="/about"><Button variant="outline" size="lg">Why ShopHub</Button></Link></div></div><div className="relative"><div className="absolute -left-8 top-10 h-40 w-40 rounded-full bg-primary-200/70 blur-3xl"/><img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=85" alt="Shopping lifestyle" className="relative mx-auto aspect-[4/3] w-full max-w-xl rounded-[32px] object-cover shadow-soft"/></div></div></section><section className="border-y border-gray-100"><div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-4 lg:px-8">{[[Truck,"Free Shipping","Orders over $50"],[ShieldCheck,"Secure Payment","100% secure"],[RotateCcw,"Easy Returns","30-day returns"],[Headphones,"24/7 Support","We are here for you"]].map(([Icon,title,sub])=><div key={String(title)} className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-xl bg-primary-50 text-primary-500"><Icon size={20}/></div><div><div className="text-sm font-bold">{String(title)}</div><div className="text-xs text-gray-400">{String(sub)}</div></div></div>)}</div></section><section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8"><SectionTitle eyebrow="Explore" title="Shop by category" subtitle="Everything you need, organized for quick discovery."/><div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">{categories.map((category,index)=><Link key={category} to="/shop" className="group rounded-2xl border border-gray-100 bg-gray-50 p-5 text-center transition hover:-translate-y-1 hover:border-primary-100 hover:bg-primary-50"><div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-white text-xl font-black text-primary-500 shadow-sm">{index+1}</div><div className="mt-3 text-sm font-bold text-gray-800">{category}</div></Link>)}</div></section><section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8"><div className="flex items-end justify-between gap-4"><SectionTitle eyebrow="Picked for you" title="Featured products"/><Link to="/shop" className="hidden text-sm font-bold text-primary-500 sm:block">View all products →</Link></div><div className="mt-7"><ProductGrid products={products.slice(0,4)} onAdd={()=>setAdded(true)}/></div></section><Modal open={newsletter} onOpenChange={setNewsletter} title="Get 10% off your first order"><p className="text-sm leading-6 text-gray-500">Join our newsletter for new arrivals, member-only deals and shopping inspiration.</p><input className="mt-5 h-11 w-full rounded-xl border border-gray-200 px-3 text-sm outline-none focus:border-primary-400" placeholder="you@example.com"/><Button className="mt-3 w-full" onClick={()=>setNewsletter(false)}>Subscribe</Button><button className="mt-3 w-full text-sm text-gray-400" onClick={()=>setNewsletter(false)}>No, thanks</button></Modal><Modal open={added} onOpenChange={setAdded} title="Added to cart"><div className="text-center"><div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-50 text-2xl">✓</div><p className="mt-4 text-sm text-gray-500">Your item has been added to the shopping cart.</p><div className="mt-5 grid gap-2"><Link to="/cart"><Button className="w-full">View cart</Button></Link><Button variant="outline" className="w-full" onClick={()=>setAdded(false)}>Continue shopping</Button></div></div></Modal></>;
+export default function HomePage() {
+  const [newsletter, setNewsletter] = useState(false);
+  const [added, setAdded] = useState(false);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["get-caregories"],
+    queryFn: async () => {
+      const response = await actions.getCategories();
+
+      return Array.isArray(response) ? response : [];
+    },
+  });
+
+  return (
+    <>
+      <section className="overflow-hidden bg-gradient-to-br from-primary-50 via-white to-yellow-50">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 py-12 sm:px-6 md:min-h-[560px] lg:grid-cols-2 lg:px-8">
+          <div>
+            <span className="inline-flex rounded-full bg-white px-3 py-1 text-xs font-bold text-primary-600 shadow-sm">
+              New season · Better choices
+            </span>
+            <h1 className="mt-5 max-w-xl text-4xl font-black tracking-[-0.04em] text-gray-950 sm:text-5xl lg:text-6xl">
+              Amazing products.
+              <br />
+              <span className="text-primary-500">Better living.</span>
+            </h1>
+            <p className="mt-5 max-w-lg text-base leading-7 text-gray-600 sm:text-lg">
+              Shop the latest trends at prices you will love, with secure
+              checkout and fast delivery.
+            </p>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link to="/shop">
+                <Button variant="secondary" size="lg">
+                  Shop now <ArrowRight size={18} />
+                </Button>
+              </Link>
+              <Link to="/about">
+                <Button variant="outline" size="lg">
+                  Why ShopHub
+                </Button>
+              </Link>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="absolute -left-8 top-10 h-40 w-40 rounded-full bg-primary-200/70 blur-3xl" />
+            <img
+              src="/images/bg_img.png"
+              alt="Shopping lifestyle"
+              className="relative mx-auto aspect-[4/3] w-full max-w-xl rounded-[32px] object-cover shadow-soft"
+            />
+          </div>
+        </div>
+      </section>
+      <section className="border-y border-gray-100">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-4 py-6 sm:px-6 lg:grid-cols-4 lg:px-8">
+          {[
+            [Truck, "Free Shipping", "Orders over UGX 10000"],
+            [ShieldCheck, "Secure Payment", "100% secure"],
+            [RotateCcw, "Easy Returns", "30-day returns"],
+            [Headphones, "24/7 Support", "We are here for you"],
+          ].map(([Icon, title, sub]) => (
+            <div key={String(title)} className="flex items-center gap-3">
+              <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary-50 text-primary-500">
+                <Icon size={20} />
+              </div>
+              <div>
+                <div className="text-sm font-bold">{String(title)}</div>
+                <div className="text-xs text-gray-400">{String(sub)}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <SectionTitle
+          eyebrow="Explore"
+          title="Shop by category"
+          subtitle="Everything you need, organized for quick discovery."
+        />
+        <Suspense isLoading={isLoading}>
+          <div className="mt-7 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {data?.map((category, index) => (
+              <Link
+                key={category?._id}
+                to="/shop"
+                className="group rounded-2xl border border-gray-100 bg-gray-50 p-5 text-center transition hover:-translate-y-1 hover:border-primary-100 hover:bg-primary-50"
+              >
+                <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-white text-xl font-black text-primary-500 shadow-sm">
+                  {index + 1}
+                </div>
+                <div className="mt-3 text-sm font-bold text-gray-800">
+                  {category?.name}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </Suspense>
+      </section>
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="flex items-end justify-between gap-4">
+          <SectionTitle eyebrow="Picked for you" title="Featured products" />
+          <Link
+            to="/shop"
+            className="hidden text-sm font-bold text-primary-500 sm:block"
+          >
+            View all products →
+          </Link>
+        </div>
+        <div className="mt-7">
+          <ProductGrid
+            products={products.slice(0, 4)}
+            onAdd={() => setAdded(true)}
+          />
+        </div>
+      </section>
+      <Modal
+        open={newsletter}
+        onOpenChange={setNewsletter}
+        title="Get 10% off your first order"
+      >
+        <p className="text-sm leading-6 text-gray-500">
+          Join our newsletter for new arrivals, member-only deals and shopping
+          inspiration.
+        </p>
+        <input
+          className="mt-5 h-11 w-full rounded-xl border border-gray-200 px-3 text-sm outline-none focus:border-primary-400"
+          placeholder="you@example.com"
+        />
+        <Button className="mt-3 w-full" onClick={() => setNewsletter(false)}>
+          Subscribe
+        </Button>
+        <button
+          className="mt-3 w-full text-sm text-gray-400"
+          onClick={() => setNewsletter(false)}
+        >
+          No, thanks
+        </button>
+      </Modal>
+      <Modal open={added} onOpenChange={setAdded} title="Added to cart">
+        <div className="text-center">
+          <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-50 text-2xl">
+            ✓
+          </div>
+          <p className="mt-4 text-sm text-gray-500">
+            Your item has been added to the shopping cart.
+          </p>
+          <div className="mt-5 grid gap-2">
+            <Link to="/cart">
+              <Button className="w-full">View cart</Button>
+            </Link>
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => setAdded(false)}
+            >
+              Continue shopping
+            </Button>
+          </div>
+        </div>
+      </Modal>
+    </>
+  );
 }
