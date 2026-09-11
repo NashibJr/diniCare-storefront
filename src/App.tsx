@@ -24,6 +24,7 @@ import ReturnsPage from "./pages/ReturnsPage";
 import TermsPage from "./pages/TermsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import Auth from "./components/common/Auth";
 
 export default function App() {
   return (
@@ -38,22 +39,28 @@ export default function App() {
           <Route path="/payment" element={<PaymentPage />} />
           <Route path="/review" element={<ReviewPage />} />
           <Route path="/confirmation" element={<ConfirmationPage />} />
-          <Route path="/orders" element={<OrdersPage />} />
-          <Route path="/orders/:id" element={<OrderDetailsPage />} />
+
+          <Route path="" element={<Auth />}>
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/orders/:id" element={<OrderDetailsPage />} />
+            <Route path="/account" element={<AccountPage />} />
+          </Route>
+
+          <Route path="/returns" element={<ReturnsPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/account" element={<AccountPage />} />
           <Route path="/addresses" element={<AddressesPage />} />
           <Route path="/payment-methods" element={<PaymentMethodsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/shipping" element={<ShippingPage />} />
-          <Route path="/returns" element={<ReturnsPage />} />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="" element={<Auth />}>
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
     </BrowserRouter>

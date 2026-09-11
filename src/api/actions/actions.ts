@@ -3,6 +3,7 @@ import {
   Category,
   GeneralCreateResponse,
   GeneralQuery,
+  LoginResponse,
   Order,
   PaymentInitiationData,
   Product,
@@ -49,6 +50,9 @@ class Actions {
     data: unknown,
   ): Promise<GeneralCreateResponse<PaymentInitiationData>> =>
     await this.api.post("/orders/make-payment", data);
+
+  public login = async (data: unknown): Promise<LoginResponse> =>
+    await this.api.post("/accounts/auth", data);
 }
 
 const actions = new Actions();

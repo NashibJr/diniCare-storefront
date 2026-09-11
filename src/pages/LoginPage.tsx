@@ -1,5 +1,130 @@
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
+import { useMutation } from "@tanstack/react-query";
+import actions from "../api/actions/actions";
+import Utils from "../utils";
 
-export default function LoginPage(){return <div className="mx-auto grid min-h-[calc(100vh-64px)] max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:px-8"><div className="hidden lg:block"><div className="rounded-[32px] bg-gradient-to-br from-primary-500 to-primary-700 p-10 text-white"><div className="text-sm font-bold uppercase tracking-[0.18em] text-primary-100">Welcome back</div><h1 className="mt-4 text-4xl font-black tracking-tight">Your favorite products are one sign-in away.</h1><p className="mt-4 max-w-md text-primary-100">Manage orders, save wishlists and speed up checkout across every device.</p></div></div><div className="mx-auto w-full max-w-md"><h1 className="text-3xl font-black">Sign in</h1><p className="mt-2 text-sm text-gray-500">Welcome back to ShopHub.</p><div className="mt-7 grid gap-4"><label className="text-sm font-semibold">Email<Input className="mt-2" placeholder="you@example.com" type="email"/></label><label className="text-sm font-semibold">Password<Input className="mt-2" placeholder="••••••••" type="password"/></label><div className="flex items-center justify-between text-sm"><label className="flex items-center gap-2 text-gray-500"><input type="checkbox" className="accent-primary-500"/>Remember me</label><button className="font-bold text-primary-500">Forgot password?</button></div><Button size="lg">Sign in</Button><div className="relative py-2 text-center text-xs text-gray-400 before:absolute before:left-0 before:top-1/2 before:w-[42%] before:border-t before:border-gray-200 after:absolute after:right-0 after:top-1/2 after:w-[42%] after:border-t after:border-gray-200">or</div><div className="grid grid-cols-3 gap-3"><Button variant="outline">Google</Button><Button variant="outline">Apple</Button><Button variant="outline">Facebook</Button></div></div><p className="mt-6 text-center text-sm text-gray-500">New here? <Link className="font-bold text-primary-500" to="/register">Create account</Link></p></div></div>}
+type LoginFormTypes = {
+  email: string;
+  password: string;
+};
+
+export default function LoginPage() {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = React.useState<LoginFormTypes>({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { name, value },
+    } = event;
+
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const loginMutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: async () => actions.login(formData),
+  });
+  const handleLogin = React.useCallback(async () => {
+    try {
+      const { data, error, message, token } = await loginMutation.mutateAsync();
+      Utils.notify(error, message, () => {
+        localStorage.setItem("token", token!);
+        localStorage.setItem("session", JSON.stringify(data));
+
+        navigate("/account");
+      });
+    } catch (error) {
+      Utils.notify("Network error");
+    }
+  }, [loginMutation, formData]);
+
+  return (
+    <div className="mx-auto grid min-h-[calc(100vh-64px)] max-w-6xl items-center gap-10 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <div className="hidden lg:block">
+        <div className="rounded-[32px] bg-gradient-to-br from-primary-500 to-primary-700 p-10 text-white">
+          <div className="text-sm font-bold uppercase tracking-[0.18em] text-primary-100">
+            Welcome back
+          </div>
+          <h1 className="mt-4 text-4xl font-black tracking-tight">
+            Your favorite products are one sign-in away.
+          </h1>
+          <p className="mt-4 max-w-md text-primary-100">
+            Manage orders, save wishlists and speed up checkout across every
+            device.
+          </p>
+        </div>
+      </div>
+      <div className="mx-auto w-full max-w-md">
+        <h1 className="text-3xl font-black">Sign in</h1>
+        <p className="mt-2 text-sm text-gray-500">Welcome back to ShopHub.</p>
+        <div className="mt-7 grid gap-4">
+          <label className="text-sm font-semibold">
+            Email
+            <Input
+              className="mt-2"
+              placeholder="you@example.com"
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </label>
+          <label className="text-sm font-semibold">
+            Password
+            <Input
+              className="mt-2"
+              placeholder="••••••••"
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </label>
+          {/* <div className="flex items-center justify-between text-sm">
+            <label className="flex items-center gap-2 text-gray-500">
+              <input type="checkbox" className="accent-primary-500" />
+              Remember me
+            </label>
+            <button className="font-bold text-primary-500">
+              Forgot password?
+            </button>
+          </div> */}
+          <Button
+            size="lg"
+            onClick={handleLogin}
+            disabled={loginMutation.isPending}
+          >
+            Sign in
+          </Button>
+          {/* <div className="relative py-2 text-center text-xs text-gray-400 before:absolute before:left-0 before:top-1/2 before:w-[42%] before:border-t before:border-gray-200 after:absolute after:right-0 after:top-1/2 after:w-[42%] after:border-t after:border-gray-200">
+            or
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <Button variant="outline">Google</Button>
+            <Button variant="outline">Apple</Button>
+            <Button variant="outline">Facebook</Button>
+          </div> */}
+        </div>
+        <p className="mt-6 text-center text-sm text-gray-500">
+          New here?{" "}
+          <Link className="font-bold text-primary-500" to="/register">
+            Create account
+          </Link>
+        </p>
+        <p className="mt-6 text-center text-sm text-gray-500">
+          Go back to{" "}
+          <Link className="font-bold text-primary-500" to="/shop">
+            shop
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}

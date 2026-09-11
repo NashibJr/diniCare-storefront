@@ -22,7 +22,7 @@ export default class Utils {
   ) => {
     if (error) {
       toast.error(error ?? "Something went wrong");
-    } else {
+    } else if (message) {
       toast.success(message);
       cb?.();
     }

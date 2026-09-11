@@ -95,3 +95,37 @@ export interface PaymentInitiationData {
   redirect_url: string;
   error: string | null;
 }
+
+export interface Address {
+  _id: string;
+  label: string;
+  street: string;
+  zipCode: string;
+  city: string;
+}
+
+export type AccountStatus = "active" | "inactive";
+
+export type AccountType = "customer" | "admin" | "staff";
+
+export interface CustomerAccount {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  image: string;
+  phone: string;
+  addresses: Address[];
+  status: AccountStatus;
+  accType: AccountType;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface LoginResponse {
+  data?: CustomerAccount;
+  token?: string;
+  message?: string;
+  error?: string;
+}
