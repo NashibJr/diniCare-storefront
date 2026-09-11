@@ -63,7 +63,9 @@ export default function LoginPage() {
       </div>
       <div className="mx-auto w-full max-w-md">
         <h1 className="text-3xl font-black">Sign in</h1>
-        <p className="mt-2 text-sm text-gray-500">Welcome back to ShopHub.</p>
+        <p className="mt-2 text-sm text-gray-500">
+          Welcome back to DigniCare .
+        </p>
         <div className="mt-7 grid gap-4">
           <label className="text-sm font-semibold">
             Email

@@ -21,7 +21,9 @@ export default function MobileMenu({
         className={`absolute left-0 top-0 h-full w-72 bg-white p-5 shadow-2xl transition-transform ${open ? "translate-x-0" : "-translate-x-full"}`}
       >
         <div className="mb-8 flex items-center justify-between">
-          <span className="text-xl font-black text-primary-500">ShopHub</span>
+          <span className="text-xl font-black text-primary-500">
+            DigniCare{" "}
+          </span>
           <button
             onClick={onClose}
             className="rounded-lg p-2 hover:bg-gray-100"

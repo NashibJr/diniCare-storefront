@@ -56,7 +56,7 @@ export default function HomePage() {
               </Link>
               <Link to="/about">
                 <Button variant="outline" size="lg">
-                  Why ShopHub
+                  Why DigniCare
                 </Button>
               </Link>
             </div>

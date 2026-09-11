@@ -30,7 +30,7 @@ export default function ShopPage() {
         <div className="flex flex-col gap-5 border-b border-gray-100 pb-7 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="text-sm font-bold text-primary-500">
-              ShopHub collection
+              DigniCare collection
             </div>
             <h1 className="mt-1 text-3xl font-black tracking-tight sm:text-4xl">
               Shop all products

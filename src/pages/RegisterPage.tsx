@@ -2,4 +2,48 @@ import { Link } from "react-router-dom";
 import Input from "../components/ui/Input";
 import Button from "../components/ui/Button";
 
-export default function RegisterPage(){return <div className="mx-auto max-w-lg px-4 py-14 sm:px-6"><div className="text-center"><h1 className="text-3xl font-black">Create your account</h1><p className="mt-2 text-sm text-gray-500">Join ShopHub and make every checkout faster.</p></div><div className="mt-8 grid gap-4 rounded-2xl border border-gray-100 p-5 sm:p-7"><label className="text-sm font-semibold">Full name<Input className="mt-2" placeholder="John Doe"/></label><label className="text-sm font-semibold">Email<Input className="mt-2" placeholder="john@example.com"/></label><label className="text-sm font-semibold">Phone<Input className="mt-2" placeholder="+1 234 567 8000"/></label><label className="text-sm font-semibold">Password<Input className="mt-2" type="password" placeholder="Create a strong password"/></label><label className="flex items-start gap-2 text-sm text-gray-500"><input type="checkbox" className="mt-1 accent-primary-500"/>I agree to the Terms and Conditions and Privacy Policy.</label><Button size="lg">Create account</Button><p className="text-center text-sm text-gray-500">Already have an account? <Link className="font-bold text-primary-500" to="/login">Sign in</Link></p></div></div>}
+export default function RegisterPage() {
+  return (
+    <div className="mx-auto max-w-lg px-4 py-14 sm:px-6">
+      <div className="text-center">
+        <h1 className="text-3xl font-black">Create your account</h1>
+        <p className="mt-2 text-sm text-gray-500">
+          Join DigniCare and make every checkout faster.
+        </p>
+      </div>
+      <div className="mt-8 grid gap-4 rounded-2xl border border-gray-100 p-5 sm:p-7">
+        <label className="text-sm font-semibold">
+          Full name
+          <Input className="mt-2" placeholder="John Doe" />
+        </label>
+        <label className="text-sm font-semibold">
+          Email
+          <Input className="mt-2" placeholder="john@example.com" />
+        </label>
+        <label className="text-sm font-semibold">
+          Phone
+          <Input className="mt-2" placeholder="+1 234 567 8000" />
+        </label>
+        <label className="text-sm font-semibold">
+          Password
+          <Input
+            className="mt-2"
+            type="password"
+            placeholder="Create a strong password"
+          />
+        </label>
+        <label className="flex items-start gap-2 text-sm text-gray-500">
+          <input type="checkbox" className="mt-1 accent-primary-500" />I agree
+          to the Terms and Conditions and Privacy Policy.
+        </label>
+        <Button size="lg">Create account</Button>
+        <p className="text-center text-sm text-gray-500">
+          Already have an account?{" "}
+          <Link className="font-bold text-primary-500" to="/login">
+            Sign in
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
+}

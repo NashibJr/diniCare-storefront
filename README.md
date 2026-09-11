@@ -1,4 +1,4 @@
-# ShopHub Storefront
+# DigniCare Storefront
 
 Responsive customer-facing e-commerce app built with React, Vite, TypeScript, Tailwind CSS, pnpm and shadcn-style Radix primitives.
 

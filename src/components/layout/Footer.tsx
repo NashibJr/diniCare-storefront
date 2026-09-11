@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="mt-20 border-t border-gray-100 bg-gray-950 text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
         <div>
-          <div className="text-2xl font-black text-primary-400">ShopHub</div>
+          <div className="text-2xl font-black text-primary-400">DigniCare </div>
           <p className="mt-3 max-w-sm text-sm leading-6 text-gray-400">
             A refined, responsive shopping experience built for modern
             customers.
@@ -37,7 +37,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 py-5 text-center text-xs text-gray-500">
-        © 2026 ShopHub. Demo storefront.
+        © 2026 DigniCare . Demo storefront.
       </div>
     </footer>
   );

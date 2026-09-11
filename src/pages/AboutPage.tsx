@@ -1,3 +1,40 @@
 import PageHero from "../components/common/PageHero";
 
-export default function AboutPage(){return <><PageHero title="About ShopHub" subtitle="A customer-first commerce experience designed around simplicity, trust and excellent service."/><div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:px-8"><div><h2 className="text-2xl font-black">Shopping should feel effortless.</h2><p className="mt-4 text-sm leading-7 text-gray-600">ShopHub is a polished demo storefront built to represent a world-class commerce experience. The interface prioritizes fast discovery, confident purchasing, transparent order tracking and responsive design.</p></div><div className="grid grid-cols-2 gap-4">{[["10k+","Happy customers"],["24/7","Support"],["30 days","Easy returns"],["100%","Secure checkout"]].map(([value,label])=><div key={label} className="rounded-2xl bg-gray-50 p-5"><div className="text-2xl font-black text-primary-500">{value}</div><div className="mt-1 text-sm text-gray-500">{label}</div></div>)}</div></div></>}
+export default function AboutPage() {
+  return (
+    <>
+      <PageHero
+        title="About DigniCare "
+        subtitle="A customer-first commerce experience designed around simplicity, trust and excellent service."
+      />
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <div>
+          <h2 className="text-2xl font-black">
+            Shopping should feel effortless.
+          </h2>
+          <p className="mt-4 text-sm leading-7 text-gray-600">
+            DigniCare is a polished demo storefront built to represent a
+            world-class commerce experience. The interface prioritizes fast
+            discovery, confident purchasing, transparent order tracking and
+            responsive design.
+          </p>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            ["10k+", "Happy customers"],
+            ["24/7", "Support"],
+            ["30 days", "Easy returns"],
+            ["100%", "Secure checkout"],
+          ].map(([value, label]) => (
+            <div key={label} className="rounded-2xl bg-gray-50 p-5">
+              <div className="text-2xl font-black text-primary-500">
+                {value}
+              </div>
+              <div className="mt-1 text-sm text-gray-500">{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}

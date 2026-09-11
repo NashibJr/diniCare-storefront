@@ -24,7 +24,7 @@ export default function Header() {
             to="/"
             className="text-xl font-black tracking-tight text-primary-500"
           >
-            ShopHub
+            DigniCare
           </Link>
           <nav className="hidden items-center gap-6 text-sm font-medium lg:flex">
             <NavLink
