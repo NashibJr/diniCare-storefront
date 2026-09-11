@@ -5,12 +5,8 @@ import ShopPage from "./pages/ShopPage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
-import PaymentPage from "./pages/PaymentPage";
-import ReviewPage from "./pages/ReviewPage";
 import ConfirmationPage from "./pages/ConfirmationPage";
 import OrdersPage from "./pages/OrdersPage";
-import OrderDetailsPage from "./pages/OrderDetailsPage";
-import WishlistPage from "./pages/WishlistPage";
 import AccountPage from "./pages/AccountPage";
 import AddressesPage from "./pages/AddressesPage";
 import PaymentMethodsPage from "./pages/PaymentMethodsPage";
@@ -36,18 +32,14 @@ export default function App() {
           <Route path="/product/:id" element={<ProductDetailsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/review" element={<ReviewPage />} />
           <Route path="/confirmation" element={<ConfirmationPage />} />
 
           <Route path="" element={<Auth />}>
             <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/orders/:id" element={<OrderDetailsPage />} />
             <Route path="/account" element={<AccountPage />} />
           </Route>
 
           <Route path="/returns" element={<ReturnsPage />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/addresses" element={<AddressesPage />} />
           <Route path="/payment-methods" element={<PaymentMethodsPage />} />
           <Route path="/about" element={<AboutPage />} />

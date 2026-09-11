@@ -1,2 +1,25 @@
 import PageHero from "../components/common/PageHero";
-export default function ReturnsPage(){return <><PageHero title="Returns & refunds" subtitle="Simple returns and transparent refund handling."/><div className="mx-auto max-w-3xl px-4 py-10 text-sm leading-7 text-gray-600 sm:px-6"><p>Eligible products may be returned within 30 days of delivery in original condition. Refunds are issued to the original payment method after inspection.</p><h2 className="mt-7 text-xl font-black text-gray-950">Start a return</h2><p className="mt-3">Open the order in My Orders and contact support with the item you want to return. You will receive return instructions and status updates.</p></div></>}
+export default function ReturnsPage() {
+  return (
+    <>
+      <PageHero
+        title="Returns & refunds"
+        subtitle="Simple returns and transparent refund handling."
+      />
+      <div className="mx-auto max-w-3xl px-4 py-10 text-sm leading-7 text-gray-600 sm:px-6">
+        <p>
+          Eligible products may be returned within 30 days of delivery in
+          original condition. Refunds are issued to the original payment method
+          after inspection.
+        </p>
+        <h2 className="mt-7 text-xl font-black text-gray-950">
+          Start a return
+        </h2>
+        <p className="mt-3">
+          Open the order in My Orders and contact support with the item you want
+          to return. You will receive return instructions and status updates.
+        </p>
+      </div>
+    </>
+  );
+}
