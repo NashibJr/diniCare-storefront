@@ -30,3 +30,15 @@ export interface Product {
   __v: number;
   description: string;
 }
+
+export interface Review {
+  _id: string;
+  customerName: string;
+  phone: string;
+  product: Product;
+  rating: number;
+  comment: string;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+}
