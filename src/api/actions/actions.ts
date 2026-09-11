@@ -1,5 +1,13 @@
 import Api from "..";
-import { Category, GeneralQuery, Product, Review } from "../../types";
+import {
+  Category,
+  GeneralCreateResponse,
+  GeneralQuery,
+  Order,
+  PaymentInitiationData,
+  Product,
+  Review,
+} from "../../types";
 
 class Actions {
   private api: Api;
@@ -31,6 +39,16 @@ class Actions {
     await this.api.get(
       `/trcs/reviews/all?product=${product}&page=${page}&limit=${limit}`,
     );
+
+  public makeOrder = async (
+    data: unknown,
+  ): Promise<GeneralCreateResponse<Order>> =>
+    await this.api.post("/orders/make", data);
+
+  public makePayment = async (
+    data: unknown,
+  ): Promise<GeneralCreateResponse<PaymentInitiationData>> =>
+    await this.api.post("/orders/make-payment", data);
 }
 
 const actions = new Actions();

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../ui/Button";
 import { money } from "../../lib";
 
@@ -7,6 +7,8 @@ type OrderSummaryType = {
   to?: string;
   estimatedTax: number;
   subTotal: number;
+  handleClick?: () => void;
+  isLoading?: boolean;
 };
 
 export default function OrderSummary({
@@ -14,7 +16,11 @@ export default function OrderSummary({
   to = "/checkout",
   estimatedTax = 0,
   subTotal,
+  handleClick,
+  isLoading,
 }: OrderSummaryType) {
+  const navigate = useNavigate();
+
   return (
     <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
       <h3 className="text-lg font-black">Order summary</h3>
@@ -41,9 +47,21 @@ export default function OrderSummary({
         <span className="font-bold">Total</span>
         <span className="text-xl font-black">{money(subTotal ?? 0)}</span>
       </div>
-      <Link to={to} className="mt-5 block">
-        <Button className="w-full">{buttonLabel}</Button>
-      </Link>
+      <div className="mt-5 block">
+        <Button
+          className="w-full"
+          onClick={() => {
+            if (handleClick) {
+              handleClick();
+            }
+
+            navigate(to);
+          }}
+          disabled={isLoading}
+        >
+          {buttonLabel}
+        </Button>
+      </div>
       <p className="mt-3 text-center text-xs text-gray-400">
         Secure checkout · SSL encrypted
       </p>
