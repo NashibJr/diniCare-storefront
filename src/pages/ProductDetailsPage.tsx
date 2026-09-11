@@ -9,6 +9,9 @@ import Suspense from "../components/common/Suspense";
 import Utils from "../utils";
 import useProducts from "../lib/hooks/useProducts";
 import ShouldRender from "../components/common/ShouldRender";
+import { useAppDispatch } from "../lib/hooks/hooks";
+import { addOrRemoveItems } from "../lib/slices/cartSlice";
+import { toast } from "sonner";
 
 export type ParamTypes = {
   id: string;
@@ -16,8 +19,10 @@ export type ParamTypes = {
 
 export default function ProductDetailsPage() {
   const { id } = useParams<ParamTypes>();
+  const dispatch = useAppDispatch();
 
   const [activeTab, setActiveTab] = React.useState<string>("desc");
+  const [quantity, setQuantity] = React.useState<number>(1);
 
   const handleTabChange = (value: string) => setActiveTab(value);
 
@@ -50,7 +55,7 @@ export default function ProductDetailsPage() {
         <div className="mt-6 grid gap-9 lg:grid-cols-2">
           <div className="grid gap-3 sm:grid-cols-[88px_1fr]">
             <div className="order-2 flex gap-3 overflow-auto sm:order-1 sm:grid sm:content-start">
-              {product?.images.map((item) => (
+              {product?.images?.map((item) => (
                 <button
                   key={item}
                   className="h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-gray-100 bg-gray-50"
@@ -99,18 +104,44 @@ export default function ProductDetailsPage() {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <div className="flex h-12 items-center rounded-xl border border-gray-200">
-                <button className="px-3">
+                <button
+                  className="px-3"
+                  onClick={() => {
+                    if (quantity === 1) {
+                      return;
+                    }
+
+                    setQuantity((prev) => prev - 1);
+                  }}
+                >
                   <Minus size={16} />
                 </button>
-                <span className="min-w-8 text-center font-bold">1</span>
-                <button className="px-3">
+                <span className="min-w-8 text-center font-bold">
+                  {quantity}
+                </span>
+                <button
+                  className="px-3"
+                  onClick={() => setQuantity((prev) => prev + 1)}
+                >
                   <Plus size={16} />
                 </button>
               </div>
               <Button
                 size="lg"
                 className="min-w-48 flex-1"
-                // onClick={() => setAdded(true)}
+                onClick={() => {
+                  dispatch(
+                    addOrRemoveItems({
+                      operation: "add",
+                      item: {
+                        item: product?._id!,
+                        quantity,
+                      },
+                    }),
+                  );
+
+                  toast.success("Item successfully added to cart");
+                }}
               >
                 Add to cart
               </Button>
