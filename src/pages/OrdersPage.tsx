@@ -9,7 +9,7 @@ import { format } from "date-fns";
 
 export default function OrdersPage() {
   const session = JSON.parse(
-    localStorage.getItem("session") ?? "",
+    localStorage.getItem("session")!,
   ) as CustomerAccount;
 
   const { data, isLoading } = useQuery({

@@ -23,7 +23,7 @@ export default function CheckoutPage() {
   const { items } = useAppSelector((state) => state.cart);
 
   const session = JSON.parse(
-    localStorage.getItem("session") ?? "",
+    localStorage.getItem("session")!,
   ) as CustomerAccount;
 
   const [values, setValues] = React.useState<CheckoutFormValues>({
