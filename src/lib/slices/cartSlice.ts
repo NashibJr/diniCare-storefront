@@ -3,7 +3,7 @@ import { Product } from "../../types";
 
 export type Item = {
   item: Product;
-  quantity: number;
+  quantity?: number;
 };
 
 export type CartInitialState = {
@@ -53,16 +53,20 @@ const cartSlice = createSlice({
       state,
       action: PayloadAction<AddOrRemovePayloadAction>,
     ) => {
-      const { operation, quantity, item } = action.payload;
+      const { operation, item } = action.payload;
       const existingItem = state?.items?.find(
         (itm) => itm.item?._id === item?.item?._id,
       );
 
       if (existingItem) {
         if (operation === "incr") {
-          existingItem.quantity += quantity!;
+          existingItem.quantity! += 1;
         } else if (operation === "decr") {
-          existingItem.quantity -= quantity!;
+          if (existingItem.quantity === 1) {
+            return;
+          }
+
+          existingItem.quantity! -= 1;
         }
       }
     },
