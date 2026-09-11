@@ -67,6 +67,11 @@ class Actions {
     customer: string,
   ): Promise<GeneralQuery<MyOrder>> =>
     await this.api.get(`/orders/get?page=1&limit=100&customer=${customer}`);
+
+  public register = async (
+    data: unknown,
+  ): Promise<GeneralCreateResponse<unknown>> =>
+    await this.api.post("/accounts/register", data);
 }
 
 const actions = new Actions();
