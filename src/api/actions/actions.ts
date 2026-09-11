@@ -5,6 +5,7 @@ import {
   GeneralCreateResponse,
   GeneralQuery,
   LoginResponse,
+  MyOrder,
   Order,
   PaymentInitiationData,
   Product,
@@ -61,6 +62,11 @@ class Actions {
 
   public updateUser = async (data: unknown): Promise<UpdateOrDeleteResponse> =>
     await this.api.patch("/accounts/update", data);
+
+  public getUserOrders = async (
+    customer: string,
+  ): Promise<GeneralQuery<MyOrder>> =>
+    await this.api.get(`/orders/get?page=1&limit=100&customer=${customer}`);
 }
 
 const actions = new Actions();

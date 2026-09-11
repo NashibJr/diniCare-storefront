@@ -136,3 +136,45 @@ export type UpdateOrDeleteResponse = {
   message?: string;
   error?: string;
 };
+
+export type ProductStatus = "active" | "inactive";
+
+export interface OrderProduct {
+  _id: string;
+  name: string;
+  images: string[];
+  category: string;
+  price: number;
+  status: ProductStatus;
+  sku: string;
+  stock: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+export interface ShippingAddress {
+  street: string;
+  city: string;
+  zipCode: string;
+  country: string;
+  phone: string;
+}
+
+export interface MyOrder {
+  _id: string;
+  orderId: string;
+  customerEmail: string;
+  customerFullName: string;
+  customerPhone: string;
+  totalAmount: number;
+  status: string;
+  items: {
+    item: OrderProduct;
+    quantity: number;
+  }[];
+  shippingAddress: ShippingAddress;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}

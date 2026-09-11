@@ -1,9 +1,26 @@
-import { Link } from "react-router-dom";
-import { orders } from "../data/orders";
 import PageHero from "../components/common/PageHero";
 import Badge from "../components/ui/Badge";
+import { useQuery } from "@tanstack/react-query";
+import { CustomerAccount } from "../types";
+import actions from "../api/actions/actions";
+import Suspense from "../components/common/Suspense";
+import { money } from "../lib";
+import { format } from "date-fns";
 
 export default function OrdersPage() {
+  const session = JSON.parse(
+    localStorage.getItem("session") ?? "",
+  ) as CustomerAccount;
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["get-my-orders", session?._id],
+    queryFn: async () => {
+      const resp = await actions.getUserOrders(session?._id);
+
+      return Array.isArray(resp.data) ? resp?.data : [];
+    },
+  });
+
   return (
     <>
       <PageHero
@@ -19,37 +36,35 @@ export default function OrdersPage() {
             <div>Amount</div>
             <div />
           </div>
-          {orders.map((order) => (
-            <div
-              key={order.id}
-              className="grid gap-3 border-b border-gray-100 px-5 py-5 last:border-0 md:grid-cols-[1fr_1fr_1fr_1fr_auto] md:items-center md:gap-4"
-            >
-              <div className="font-black">#{order.id}</div>
-              <div className="text-sm text-gray-500">{order.date}</div>
-              <div>
-                <Badge
-                  className={
-                    order.status === "Delivered"
-                      ? "bg-emerald-50 text-emerald-700"
-                      : order.status === "Shipped"
-                        ? "bg-blue-50 text-blue-700"
-                        : "bg-amber-50 text-amber-700"
-                  }
-                >
-                  {order.status}
-                </Badge>
-              </div>
-              <div className="text-sm font-bold">
-                ${order.amount.toLocaleString()}
-              </div>
-              <Link
-                to={`/orders/${order.id}`}
-                className="text-sm font-bold text-primary-500"
+          <Suspense isLoading={isLoading}>
+            {data?.map((order) => (
+              <div
+                key={order._id}
+                className="grid gap-3 border-b border-gray-100 px-5 py-5 last:border-0 md:grid-cols-[1fr_1fr_1fr_1fr_auto] md:items-center md:gap-4"
               >
-                View details
-              </Link>
-            </div>
-          ))}
+                <div className="font-black">#{order?.orderId}</div>
+                <div className="text-sm text-gray-500">
+                  {format(order?.createdAt ?? new Date(), "MMM dd, yyyy")}
+                </div>
+                <div>
+                  <Badge
+                    className={
+                      order?.status === "Delivered"
+                        ? "bg-emerald-50 text-emerald-700"
+                        : order.status === "Shipped"
+                          ? "bg-blue-50 text-blue-700"
+                          : "bg-amber-50 text-amber-700"
+                    }
+                  >
+                    {order.status}
+                  </Badge>
+                </div>
+                <div className="text-sm font-bold">
+                  {money(order?.totalAmount ?? 0)}
+                </div>
+              </div>
+            ))}
+          </Suspense>
         </div>
       </div>
     </>
