@@ -1,16 +1,3 @@
-export type Product = {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  oldPrice?: number;
-  rating: number;
-  reviews: number;
-  image: string;
-  badge?: string;
-  description: string;
-};
-
 export interface Category {
   _id: string;
   name: string;
@@ -20,4 +7,26 @@ export interface Category {
   __v: number;
   slung: string;
   totalProducts: number;
+}
+
+export type GeneralQuery<T> = {
+  page: number;
+  pages: number;
+  total: number;
+  data: T[];
+};
+
+export interface Product {
+  _id: string;
+  name: string;
+  images: string[];
+  category: Category;
+  price: number;
+  status: string;
+  sku: string;
+  stock: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  description: string;
 }

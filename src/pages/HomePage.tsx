@@ -6,7 +6,6 @@ import {
   Truck,
 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { products } from "../data/products";
 import ProductGrid from "../components/product/ProductGrid";
 import SectionTitle from "../components/ui/SectionTitle";
 import Button from "../components/ui/Button";
@@ -15,6 +14,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import actions from "../api/actions/actions";
 import Suspense from "../components/common/Suspense";
+import useProducts from "../lib/hooks/useProducts";
 
 export default function HomePage() {
   const [newsletter, setNewsletter] = useState(false);
@@ -28,6 +28,8 @@ export default function HomePage() {
       return Array.isArray(response) ? response : [];
     },
   });
+
+  const { data: products, isLoading: isProductsLoading } = useProducts();
 
   return (
     <>
@@ -100,7 +102,7 @@ export default function HomePage() {
             {data?.map((category, index) => (
               <Link
                 key={category?._id}
-                to="/shop"
+                to={`/shop?category=${category?._id}`}
                 className="group rounded-2xl border border-gray-100 bg-gray-50 p-5 text-center transition hover:-translate-y-1 hover:border-primary-100 hover:bg-primary-50"
               >
                 <div className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-white text-xl font-black text-primary-500 shadow-sm">
@@ -124,12 +126,14 @@ export default function HomePage() {
             View all products →
           </Link>
         </div>
-        <div className="mt-7">
-          <ProductGrid
-            products={products.slice(0, 4)}
-            onAdd={() => setAdded(true)}
-          />
-        </div>
+        <Suspense isLoading={isProductsLoading}>
+          <div className="mt-7">
+            <ProductGrid
+              products={(products?.data ?? [])?.slice(0, 4)}
+              onAdd={() => setAdded(true)}
+            />
+          </div>
+        </Suspense>
       </section>
       <Modal
         open={newsletter}
