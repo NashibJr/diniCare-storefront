@@ -1,4 +1,4 @@
-import { Heart, Menu, Search, ShoppingBag, UserRound } from "lucide-react";
+import { Menu, ShoppingBag, UserRound } from "lucide-react";
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import MobileMenu from "./MobileMenu";
@@ -68,20 +68,21 @@ export default function Header() {
               Contact
             </NavLink>
           </nav>
-          {/* <div className="ml-auto hidden max-w-sm flex-1 items-center rounded-xl bg-gray-50 px-3 lg:flex">
-            <Search size={17} className="text-gray-400" />
+          <div className="ml-auto hidden max-w-sm flex-1 items-center rounded-xl bg-gray-50 px-3 lg:flex">
+            <div />
+            {/* <Search size={17} className="text-gray-400" />
             <input
               className="h-10 w-full bg-transparent px-2 text-sm outline-none"
               placeholder="Search products..."
-            />
-          </div> */}
-          {/* <div className="ml-auto flex items-center gap-1 lg:ml-0">
-            <Link
+            /> */}
+          </div>
+          <div className="ml-auto flex items-center gap-1 lg:ml-0">
+            {/* <Link
               to="/wishlist"
               className="rounded-lg p-2 text-gray-600 hover:bg-gray-50"
             >
               <Heart size={20} />
-            </Link>
+            </Link> */}
             <Link
               to="/account"
               className="hidden rounded-lg p-2 text-gray-600 hover:bg-gray-50 sm:block"
@@ -97,7 +98,7 @@ export default function Header() {
                 {items?.length ?? 0}
               </span>
             </Link>
-          </div> */}
+          </div>
         </div>
       </header>
       <MobileMenu open={open} onClose={() => setOpen(false)} />

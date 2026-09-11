@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import actions from "../api/actions/actions";
 import { toast } from "sonner";
 import Utils from "../utils";
+import { CustomerAccount } from "../types";
 
 type CheckoutFormValues = {
   customerFullName: string;
@@ -20,6 +21,10 @@ type CheckoutFormValues = {
 
 export default function CheckoutPage() {
   const { items } = useAppSelector((state) => state.cart);
+
+  const session = JSON.parse(
+    localStorage.getItem("session") ?? "",
+  ) as CustomerAccount;
 
   const [values, setValues] = React.useState<CheckoutFormValues>({
     customerFullName: "",
@@ -63,7 +68,7 @@ export default function CheckoutPage() {
     mutationFn: async (data: unknown) => await actions.makePayment(data),
   });
   const handleContinueToPayment = async () => {
-    const payload = {
+    const payload: any = {
       orderId: `ORD-${Date.now()}`,
 
       customerEmail: values.customerEmail,
@@ -86,15 +91,27 @@ export default function CheckoutPage() {
       },
     };
 
-    if (
-      !values.address ||
-      !values.city ||
-      !values.customerPhone ||
-      !values.customerFullName
-    ) {
-      toast.error("Enter the missing information");
+    if (!session) {
+      if (
+        !values.address ||
+        !values.city ||
+        !values.customerPhone ||
+        !values.customerFullName
+      ) {
+        toast.error("Enter the missing information");
 
-      return;
+        return;
+      }
+    }
+
+    if (session) {
+      payload.customer = session?._id;
+
+      if (!values.address || !values.city) {
+        toast.error("Enter the missing information");
+
+        return;
+      }
     }
 
     try {
