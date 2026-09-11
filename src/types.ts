@@ -129,3 +129,10 @@ export interface LoginResponse {
   message?: string;
   error?: string;
 }
+
+export type UpdateOrDeleteResponse = {
+  matchedCount?: number;
+  deleteCount?: number;
+  message?: string;
+  error?: string;
+};

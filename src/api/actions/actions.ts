@@ -1,6 +1,7 @@
 import Api from "..";
 import {
   Category,
+  CustomerAccount,
   GeneralCreateResponse,
   GeneralQuery,
   LoginResponse,
@@ -8,6 +9,7 @@ import {
   PaymentInitiationData,
   Product,
   Review,
+  UpdateOrDeleteResponse,
 } from "../../types";
 
 class Actions {
@@ -53,6 +55,12 @@ class Actions {
 
   public login = async (data: unknown): Promise<LoginResponse> =>
     await this.api.post("/accounts/auth", data);
+
+  public getLoggedinUser = async (): Promise<CustomerAccount> =>
+    await this.api.get("/accounts/get-loggedin-acc");
+
+  public updateUser = async (data: unknown): Promise<UpdateOrDeleteResponse> =>
+    await this.api.patch("/accounts/update", data);
 }
 
 const actions = new Actions();
