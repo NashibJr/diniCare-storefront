@@ -71,7 +71,7 @@ const cartSlice = createSlice({
       }
     },
     clearCart: (state) => {
-      state = initialState;
+      state.items.length = 0;
     },
   },
 });

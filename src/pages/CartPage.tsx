@@ -5,7 +5,7 @@ import Modal from "../components/ui/Modal";
 import Button from "../components/ui/Button";
 import { useAppDispatch, useAppSelector } from "../lib/hooks/hooks";
 import ShouldRender from "../components/common/ShouldRender";
-import { addOrRemoveItems, Item } from "../lib/slices/cartSlice";
+import { addOrRemoveItems, clearCart, Item } from "../lib/slices/cartSlice";
 
 export default function CartPage() {
   const { items } = useAppSelector((state) => state.cart);
@@ -13,6 +13,7 @@ export default function CartPage() {
 
   const [remove, setRemove] = useState(false);
   const [selectedItem, setSelectedItem] = React.useState<Item | null>(null);
+  //   const [couponCode, setCouponCode] = React.useState<string>("");
 
   const handleClose = () => {
     setRemove(false);
@@ -30,6 +31,17 @@ export default function CartPage() {
     handleClose();
   };
 
+  const total = React.useMemo(() => {
+    return items
+      ?.map((item) => {
+        const qnty = item?.quantity;
+        const price = item?.item?.price;
+
+        return (qnty ?? 0) * price;
+      })
+      .reduce((prevValue, currValue) => prevValue + currValue, 0);
+  }, [items]);
+
   return (
     <>
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -38,7 +50,12 @@ export default function CartPage() {
             <div className="text-sm font-bold text-primary-500">Your cart</div>
             <h1 className="mt-1 text-3xl font-black">Shopping cart</h1>
           </div>
-          <button className="text-sm font-bold text-red-500">Clear cart</button>
+          <button
+            className="text-sm font-bold text-red-500"
+            onClick={() => dispatch(clearCart())}
+          >
+            Clear cart
+          </button>
         </div>
         <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
           <ShouldRender shouldRender={items?.length !== 0}>
@@ -62,17 +79,20 @@ export default function CartPage() {
             </p>
           </ShouldRender>
           <div>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <label className="text-sm font-bold">Coupon code</label>
               <div className="mt-2 flex gap-2">
                 <input
                   className="h-11 min-w-0 flex-1 rounded-xl border border-gray-200 px-3 text-sm outline-none focus:border-primary-400"
                   placeholder="SAVE10"
+                  name="couponCode"
+                  value={couponCode}
+                  onChange={(event) => setCouponCode(event.target.value)}
                 />
                 <Button variant="outline">Apply</Button>
               </div>
-            </div>
-            <OrderSummary />
+            </div> */}
+            <OrderSummary subTotal={total} estimatedTax={0} />
           </div>
         </div>
       </div>
