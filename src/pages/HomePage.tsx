@@ -128,10 +128,7 @@ export default function HomePage() {
         </div>
         <Suspense isLoading={isProductsLoading}>
           <div className="mt-7">
-            <ProductGrid
-              products={(products?.data ?? [])?.slice(0, 4)}
-              onAdd={() => setAdded(true)}
-            />
+            <ProductGrid products={(products?.data ?? [])?.slice(0, 4)} />
           </div>
         </Suspense>
       </section>

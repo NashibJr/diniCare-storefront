@@ -134,7 +134,7 @@ export default function ProductDetailsPage() {
                     addOrRemoveItems({
                       operation: "add",
                       item: {
-                        item: product?._id!,
+                        item: product!,
                         quantity,
                       },
                     }),

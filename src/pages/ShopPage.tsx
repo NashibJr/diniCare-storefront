@@ -70,7 +70,7 @@ export default function ShopPage() {
             {/* <div className="hidden lg:block">
             <FiltersPanel />
           </div> */}
-            <ProductGrid products={filtered} onAdd={() => setAdded(true)} />
+            <ProductGrid products={filtered} />
           </div>
         </Suspense>
       </div>

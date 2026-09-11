@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Product } from "../../types";
 
 export type Item = {
-  item: string;
+  item: Product;
   quantity: number;
 };
 
@@ -28,7 +29,9 @@ const cartSlice = createSlice({
       action: PayloadAction<AddOrRemovePayloadAction>,
     ) => {
       const { operation, item } = action.payload;
-      const exists = state.items?.find((itm) => itm.item === item?.item);
+      const exists = state.items?.find(
+        (itm) => itm.item?._id === item?.item?._id,
+      );
 
       switch (operation) {
         case "add":
@@ -40,7 +43,9 @@ const cartSlice = createSlice({
           break;
 
         default:
-          state.items = state?.items?.filter((itm) => itm.item !== item!.item);
+          state.items = state?.items?.filter(
+            (itm) => itm.item?._id !== item!.item?._id,
+          );
           break;
       }
     },
@@ -49,7 +54,9 @@ const cartSlice = createSlice({
       action: PayloadAction<AddOrRemovePayloadAction>,
     ) => {
       const { operation, quantity, item } = action.payload;
-      const existingItem = state?.items?.find((itm) => itm.item === item?.item);
+      const existingItem = state?.items?.find(
+        (itm) => itm.item?._id === item?.item?._id,
+      );
 
       if (existingItem) {
         if (operation === "incr") {
@@ -59,9 +66,13 @@ const cartSlice = createSlice({
         }
       }
     },
+    clearCart: (state) => {
+      state = initialState;
+    },
   },
 });
 
-export const { addOrRemoveItems, incrementOrDecrement } = cartSlice.actions;
+export const { addOrRemoveItems, incrementOrDecrement, clearCart } =
+  cartSlice.actions;
 
 export default cartSlice;
